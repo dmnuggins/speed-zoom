@@ -6,16 +6,29 @@ extends Camera2D
 var target_zoom := Vector2.ONE
 var target_position := Vector2.ZERO
 var zooming_in := false
+var zoom_enabled := false
+
+signal zoom_toggled
+
+func _ready():
+	connect("zoom_toggled", on_zoom_toggled)
 
 func _process(delta):
-	if zooming_in:
-		
+	if zoom_enabled:
+		zoom_in()
 		if zoom != target_zoom:
 			zoom = lerp(zoom, target_zoom, zoom_speed * delta)
-			
-		position = lerp(position, target_position, move_speed * delta)
-		
-func zoom_and_lock_on(player: CharacterBody2D) -> void:
+	else:
+		reset_zoom()
+		if zoom != target_zoom:
+			zoom = lerp(zoom, target_zoom, zoom_speed * delta)
+
+func zoom_in() -> void:
 	target_zoom = Vector2(2, 2)
-	target_position = player.global_position
-	zooming_in = true
+
+func reset_zoom():
+	target_zoom = Vector2.ONE
+
+func on_zoom_toggled():
+	zoom_enabled = !zoom_enabled
+	print("zoom_enabled: " + str(zoom_enabled))

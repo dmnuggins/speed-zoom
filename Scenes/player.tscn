@@ -1,17 +1,97 @@
-[gd_scene load_steps=4 format=3 uid="uid://bhs7girj6uxu6"]
+[gd_scene load_steps=9 format=3 uid="uid://bhs7girj6uxu6"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_21nom"]
-[ext_resource type="Texture2D" uid="uid://dods123m3yybc" path="res://icon.svg" id="1_51tu5"]
+[ext_resource type="Script" path="res://Scripts/camera.gd" id="3_1xlfo"]
+[ext_resource type="Texture2D" uid="uid://c61mjca54vwlo" path="res://Assets/effect_yellow.png" id="3_dowl3"]
+[ext_resource type="Texture2D" uid="uid://dvgpfktxdmclc" path="res://Assets/ship_E.png" id="3_lfuqb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qkshu"]
 radius = 6.0
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[sub_resource type="Animation" id="Animation_rnuv3"]
+resource_name = "thrust"
+length = 0.3
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/Exhaust:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.375, 0.375), Vector2(0.35, 0.35)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites/Exhaust:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 22), Vector2(0, 20)]
+}
+
+[sub_resource type="Animation" id="Animation_juflj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites/Exhaust:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.375, 0.375)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites/Exhaust:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 22)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2lbua"]
+_data = {
+"RESET": SubResource("Animation_juflj"),
+"thrust": SubResource("Animation_rnuv3")
+}
+
+[node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_21nom")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("1_51tu5")
+[node name="PlayerCamera" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+script = ExtResource("3_1xlfo")
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="Exhaust" type="Sprite2D" parent="Sprites"]
+position = Vector2(0, 22)
+scale = Vector2(0.375, 0.375)
+texture = ExtResource("3_dowl3")
+
+[node name="Ship" type="Sprite2D" parent="Sprites"]
+texture = ExtResource("3_lfuqb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_qkshu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2lbua")
+}
+autoplay = "thrust"

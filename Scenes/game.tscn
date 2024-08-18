@@ -1,28 +1,31 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxmnym418c7yx"]
+[gd_scene load_steps=4 format=3 uid="uid://dxmnym418c7yx"]
 
 [ext_resource type="Script" path="res://Scripts/game.gd" id="1_5jox0"]
 [ext_resource type="PackedScene" uid="uid://bhs7girj6uxu6" path="res://Scenes/player.tscn" id="2_ikg3c"]
-[ext_resource type="Script" path="res://Scripts/camera.gd" id="2_tsgg4"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fer0n"]
-size = Vector2(100, 100)
+[ext_resource type="Texture2D" uid="uid://dods123m3yybc" path="res://icon.svg" id="3_qdhdr"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_5jox0")
 
-[node name="Camera" type="Camera2D" parent="."]
-position = Vector2(576, 324)
-position_smoothing_enabled = true
-script = ExtResource("2_tsgg4")
-
-[node name="CharacterBody2D" parent="." instance=ExtResource("2_ikg3c")]
+[node name="Player" parent="." instance=ExtResource("2_ikg3c")]
 position = Vector2(576, 324)
 
-[node name="Area2D" type="Area2D" parent="."]
-position = Vector2(464, 264)
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(400, 152)
+texture = ExtResource("3_qdhdr")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_fer0n")
+[node name="Icon2" type="Sprite2D" parent="."]
+position = Vector2(856, 208)
+texture = ExtResource("3_qdhdr")
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[node name="Icon3" type="Sprite2D" parent="."]
+position = Vector2(112, 504)
+texture = ExtResource("3_qdhdr")
+
+[node name="Icon4" type="Sprite2D" parent="."]
+position = Vector2(1040, 544)
+texture = ExtResource("3_qdhdr")
+
+[node name="Icon5" type="Sprite2D" parent="."]
+position = Vector2(488, 472)
+texture = ExtResource("3_qdhdr")

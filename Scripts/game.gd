@@ -1,7 +1,8 @@
 extends Node2D
 
 @onready var area_2d = $Area2D
-@onready var camera = $Camera
+@onready var player = $Player
+
 
 @export var zoom_speed: float = 2
 
@@ -16,15 +17,3 @@ func _process(delta: float) -> void:
 	#if camera.zoom != target_zoom:
 		#camera.zoom = lerp(camera.zoom, target_zoom, zoom_speed * delta)
 	pass
-
-
-func _on_area_2d_body_entered(body: Node) -> void:
-	if body is CharacterBody2D:
-		camera.zoom_and_lock_on(body)
-
-
-
-func _on_area_2d_body_exited(body: Node) -> void:
-	if body is CharacterBody2D:
-		target_zoom = Vector2.ONE
-		camera.position = DEFAULT_CAM_POS
